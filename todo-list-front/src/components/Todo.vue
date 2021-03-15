@@ -18,7 +18,7 @@
                 <p v-if="VTodo.task.description">{{VTodo.task.description}}</p>
               </div>
             </div>
-            <div class="columns">
+            <div class="columns" v-if="is_editable">
                 <div class="column">
                     <button class="button is-light is-info" v-on:click="select">View</button>
                 </div>
@@ -41,6 +41,11 @@ export default {
   name: 'Todo',
   props: {
     VTodo: Object,
+  },
+  data: function() {
+    return {
+          is_editable: !this.$route.params.todo_id,
+    }
   },
   methods: {
     async select () {

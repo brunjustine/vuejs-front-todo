@@ -1,6 +1,5 @@
 <template>
     <div class="todoListId">
-        <p>This is home</p>
         <div v-if="this.posts.data">
             <TodoList v-bind:Vlist="this.posts.data"/>
             <br>
