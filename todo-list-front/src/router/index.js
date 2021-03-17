@@ -4,6 +4,7 @@ import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
 import TodoListId from '../views/TodoListId.vue'
 import TodoId from '../views/TodoId.vue'
+import SignUp from '../views/SignUp.vue'
 
 Vue.use(VueRouter)
 
@@ -20,7 +21,8 @@ const routes = [
     },
     {
         path:'/signup',
-        name: 'SignUp'
+        name: 'SignUp',
+        component: SignUp
     },
     {
         path: '/:todo_list_id',
