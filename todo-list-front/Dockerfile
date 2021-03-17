@@ -1,10 +1,10 @@
 FROM node:lts-alpine
-LABEL "Author"="Justine Brun brunjustin@eisti.eu"
+
 # installe un simple serveur http pour servir un contenu statique
-RUN npm install -g http-server
+RUN npm install http-server
 
 # définit le dossier 'app' comme dossier de travail
-WORKDIR /app/my-app
+WORKDIR /app
 
 # copie 'package.json' et 'package-lock.json' (si disponible)
 COPY package*.json ./
