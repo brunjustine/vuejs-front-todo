@@ -1,5 +1,5 @@
 <template>
-    <div class="home">
+    <div class="home" v-if="this.posts.data">
         <p>This is home</p>
         <div v-if="!is_createMode"> 
             <button class="button is-light is-primary" v-on:click="ToCreateMode">Create a new TodoList</button>
@@ -65,6 +65,7 @@ export default {
             const response = await axios.get(`http://0.0.0.0:5000/api/lists`)
             this.posts = response.data
         } catch (e) {
+            alert(e)
             this.errors.push(e)
         }
     },
