@@ -53,8 +53,7 @@ export default {
                     login : this.login,
                     hash: this.pwd
                 }).then(function( response ){
-                    console.log(response.data.data)
-                    this.posts = response.data.data
+                    localStorage.setItem('token', response.data.data)
                 }.bind(this));
             } catch (e) {
                 this.errors.push(e)

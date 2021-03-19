@@ -5,8 +5,17 @@ import Login from '../views/Login.vue'
 import TodoListId from '../views/TodoListId.vue'
 import TodoId from '../views/TodoId.vue'
 import SignUp from '../views/SignUp.vue'
+import axios from "axios"
 
+Vue.config.productionTip = false;
 Vue.use(VueRouter)
+
+axios.interceptors.request.use(req => {
+    console.log(`${req.method} ${req.url}`)
+    req.headers.common['token'] = localStorage.getItem('token')
+    console.log(req)
+    return req
+})
 
 const routes = [
     {
