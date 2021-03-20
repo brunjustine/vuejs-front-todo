@@ -33,7 +33,7 @@
         <div v-if="this.posts.data">
             <TodoList v-bind:Vlist="this.posts.data"/>
             <br>
-            <div v-for="todo in this.posts.data.todos" v-bind:key="todo.id">
+            <div v-for="todo in this.posts.data.todos" v-bind:key="todo.id+todo.task.name">
                 <Todo v-bind:VTodo="todo"/>
                 <br>
             </div>

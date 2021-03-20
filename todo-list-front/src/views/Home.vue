@@ -32,7 +32,7 @@
                 </div>
         </div>
         
-        <div v-for="list in this.posts.data" v-bind:key="list.id">
+        <div v-for="list in this.posts.data" v-bind:key="list.id+list.name">
             <TodoList v-bind:Vlist="list"/>
             <br>
         </div>
