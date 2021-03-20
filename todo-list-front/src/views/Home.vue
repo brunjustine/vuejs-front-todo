@@ -63,7 +63,8 @@ export default {
     async created() {
         await axios.get(`http://0.0.0.0:5000/api/lists`)
                         .then(response => (this.posts = response.data))
-                        .catch(error => this.errors.push(error))
+                        .catch(error => {this.errors.push(error)
+                        this.$router.replace('/login')})
     },
     methods : {
         async createList() {
