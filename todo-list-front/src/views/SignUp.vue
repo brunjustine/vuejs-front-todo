@@ -89,7 +89,7 @@ export default {
                     if (response.data.data) {
                         this.posts = response.data.data
                         alert("Account create, please go to login to access to the full application")
-                        this.$router.replace('/login')
+                        this.$router.replace('/login').catch(()=>{});
                     }
                     
                 }.bind(this));

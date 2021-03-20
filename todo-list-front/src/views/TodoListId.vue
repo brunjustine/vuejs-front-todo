@@ -70,7 +70,7 @@ export default {
             this.posts = response.data
         } catch (e) {
             this.errors.push(e)
-            this.$router.replace('/login')
+            this.$router.replace('/login').catch(()=>{});
         }
     },
     methods : {

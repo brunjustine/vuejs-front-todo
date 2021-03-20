@@ -19,10 +19,20 @@
       </div>
       <div class="navbar-end">
         <div class="navbar-item">
-          <div class="buttons">
+          
+          <div class="buttons" v-if="!user">
               <strong><router-link class="button is-primary" to="/signup">Sign up</router-link></strong>
                <router-link class="button is-light" to="/login">Log in</router-link>
           </div>
+          <div class="field is-grouped" v-else>
+              <div class="control">
+                <strong><span class="button is-primary">{{user}}</span></strong>
+              </div>
+              <div class="control">
+                <button class="button is-primary is-light" v-on:click="deconnexion">Deconnexion</button>
+             </div>
+          </div>
+
         </div>
       </div>
     </div>
@@ -32,6 +42,26 @@
 
 
 </template>
+
+<script>
+
+export default {
+    name: 'App',
+    data() {
+        return {
+                user: localStorage.getItem('user_login')
+        }
+    },
+    methods: {
+      deconnexion : function() {
+        this.user = undefined
+        localStorage.clear()
+        this.$router.replace('/login').catch(()=>{});
+      }
+    }
+}
+</script>
+
 
 <style lang="scss">
 #app {

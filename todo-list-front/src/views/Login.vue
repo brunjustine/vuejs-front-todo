@@ -31,6 +31,7 @@
 
 <script>
 import axios from 'axios'
+
 //import bcrypt from 'bcryptjs'
 
 export default {
@@ -55,11 +56,12 @@ export default {
                 }).then(function( response ){
                     if (response.data.data){
                         localStorage.setItem('token', response.data.data)
-                        this.$router.replace('/')
+                        localStorage.setItem('user_login',this.login)
+                        this.$router.replace('/').catch(()=>{});
                     } 
-                }.bind(this));
+                }.bind(this)).catch(error => alert("Invalid credentials :" +error));
             } catch (e) {
-                this.errors.push(e)
+                this.errors.push(e)  
             }
         }
        

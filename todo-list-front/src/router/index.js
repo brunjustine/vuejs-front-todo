@@ -11,9 +11,9 @@ Vue.config.productionTip = false;
 Vue.use(VueRouter)
 
 axios.interceptors.request.use(req => {
-    console.log(`${req.method} ${req.url}`)
+    //console.log(`${req.method} ${req.url}`)
     req.headers.common['token'] = localStorage.getItem('token')
-    console.log(req)
+    //console.log(req)
     return req
 })
 

@@ -2,4 +2,4 @@ npm install axios --save
 npm install --save vue-router
 npm install bulma
 npm install bcrypt
- npm install --save aws-sdk https-proxy-agent mock-aws-s3 nock
+npm install --save aws-sdk https-proxy-agent mock-aws-s3 nocks
