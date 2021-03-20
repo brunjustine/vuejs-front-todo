@@ -53,7 +53,10 @@ export default {
                     login : this.login,
                     hash: this.pwd
                 }).then(function( response ){
-                    localStorage.setItem('token', response.data.data)
+                    if (response.data.data){
+                        localStorage.setItem('token', response.data.data)
+                        this.$router.replace('/')
+                    } 
                 }.bind(this));
             } catch (e) {
                 this.errors.push(e)

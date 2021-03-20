@@ -3,6 +3,7 @@
         <div v-if="!is_createMode"> 
                 <button class="button is-light is-primary" v-on:click="ToCreateMode">Create a new Todo item</button>
             </div>
+            <br>
             <div v-if="is_createMode"> 
                 <div class="field container" >
                     <div class="columns">
@@ -72,21 +73,16 @@ export default {
         }
     },
     methods : {
-        createItem : function () {
-            try {
-                axios.put(`http://0.0.0.0:5000/api/lists/todos/${this.$route.params.todo_list_id}`,
+        async createItem () {
+            await axios.put(`http://0.0.0.0:5000/api/lists/todos/${this.$route.params.todo_list_id}`,
                 {
                     name : this.newName,
                     created_on:this.newDate
-                }).then(function( response ){
-                    console.log(response.data.data)
-                    this.posts = response.data.data
-                    //this.posts.push({"name":"test","created_on":"test"})
-                }.bind(this));
-                this.is_createMode = false
-            } catch (e) {
-                this.errors.push(e)
-            }
+                }).catch(error => this.errors.push(error))
+            this.is_createMode = false
+            await axios.get(`http://0.0.0.0:5000/api/lists/${this.$route.params.todo_list_id}`)
+                        .then(response => (this.posts = response.data))
+                        .catch(error => this.errors.push(error))
         },
         ToCreateMode : function () {
             this.is_createMode=true

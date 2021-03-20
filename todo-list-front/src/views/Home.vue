@@ -1,9 +1,9 @@
 <template>
     <div class="home" v-if="this.posts.data">
-        <p>This is home</p>
         <div v-if="!is_createMode"> 
             <button class="button is-light is-primary" v-on:click="ToCreateMode">Create a new TodoList</button>
         </div>
+        <br>
         <div v-if="is_createMode"> 
             <div class="field container" >
                     <div class="columns">
@@ -61,30 +61,21 @@ export default {
 
     // Fetches posts when the component is created.
     async created() {
-        try {
-            const response = await axios.get(`http://0.0.0.0:5000/api/lists`)
-            this.posts = response.data
-        } catch (e) {
-            alert(e)
-            this.errors.push(e)
-        }
+        await axios.get(`http://0.0.0.0:5000/api/lists`)
+                        .then(response => (this.posts = response.data))
+                        .catch(error => this.errors.push(error))
     },
     methods : {
-        createList : function () {
-            try {
-                axios.put(`http://0.0.0.0:5000/api/lists`,
+        async createList() {
+            await axios.put(`http://0.0.0.0:5000/api/lists`,
                 {
                     name : this.newName,
                     created_on:this.newDate
-                }).then(function( response ){
-                    console.log(response.data.data)
-                    this.posts = response.data.data
-                    //this.posts.push({"name":"test","created_on":"test"})
-                }.bind(this));
-                this.is_createMode = false
-            } catch (e) {
-                this.errors.push(e)
-            }
+                }).catch(error => this.errors.push(error))
+            this.is_createMode = false
+            await axios.get(`http://0.0.0.0:5000/api/lists`)
+                        .then(response => (this.posts = response.data))
+                        .catch(error => this.errors.push(error))
         },
         ToCreateMode : function () {
             this.is_createMode=true

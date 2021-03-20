@@ -46,6 +46,11 @@
                             </div>
                         </div>
                         <div class="column">
+                            <div class="control">
+                                <input class="input" type="text" placeholder="Todo item description" v-model="updatedDescription">
+                            </div>
+                        </div>
+                        <div class="column">
                             <div class="field is-grouped">
                                 <div class="control">
                                     <button class="button is-link is-warning" type="submit" v-on:click="update">Submit</button>
@@ -77,6 +82,7 @@ export default {
           is_updateMode : false,
           updatedName : this.VTodo.task.name,
           updatedDate : this.VTodo.task.created_on,
+          updatedDescription : this.VTodo.task.description,
           todoItem : this.VTodo
     }
   },
@@ -89,7 +95,8 @@ export default {
             axios.patch(`http://0.0.0.0:5000/api/lists/todos/${this.$route.params.todo_list_id}/${this.todoItem.id}`,
             {
                 name : this.updatedName,
-                created_on:this.created_on
+                created_on:this.updatedDate,
+                description : this.updatedDescription
             }).then(function( response ){
                     this.todoItem = response.data.data         
             }.bind(this));
