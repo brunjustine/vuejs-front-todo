@@ -3,7 +3,7 @@
         <div class="field">
             <label class="label">Login</label>
             <div class="control has-icons-left has-icons-right" >
-                <input class="input is-success" type="text" placeholder="Choose your login" v-model="login">
+                <input class="input" type="text" placeholder="Choose your login" v-model="login">
                 <span class="icon is-small is-left">
                     <i class="fas fa-user"></i>
                 </span>
@@ -11,9 +11,9 @@
                     <i class="fas fa-check"></i>
                 </span>
             </div>
-            <p class="help is-success">This login is available</p>
+            <p class="help is-danger" v-if="is_duplicate">Login already exists</p>
         </div>
-
+        
         <div class="field">
             <label class="label">password</label>
             <div class="control has-icons-left has-icons-right">
@@ -62,54 +62,71 @@ export default {
     data() {
         return {
                 login : '',
+                is_duplicate : false,
                 pwd : '',
                 pwd_check : '',
                 errors: [],
-                is_equals : this.pwd == this.pwd_check
+                is_equals : false
         }
     },
     methods : {
-        //hashPwd : function (pwd) {
-        //    const saltRounds = 10;
-        //    const salt = bcrypt.genSaltSync(saltRounds);
-        //    const hash = bcrypt.hashSync(pwd, salt);
-        //    console.log(hash)
-        //    console.log(salt)
-        //    return hash
-        //},
-        createUser : function () {
-            try {
-                axios.post(`http://0.0.0.0:5000/api/account`,
-                {
-                    login : this.login,
-                    //password: this.hashPwd(this.pwd)
-                    password:this.pwd
-                }).then(function( response ){
-                    console.log(response.data.data)
-                    if (response.data.data) {
-                        this.posts = response.data.data
-                        alert("Account create, please go to login to access to the full application")
-                        this.$router.replace('/login').catch(()=>{});
-                    }
-                    
-                }.bind(this));
-            } catch (e) {
-                this.errors.push(e)
+        async createUser() {
+            this.checkLogin()
+            if (!this.is_duplicate) {
+                try {
+                    await axios.post(`http://0.0.0.0:5000/api/account`,
+                    {
+                        login : this.login,
+                        password:this.pwd
+                    }).then(function( response ){
+                        console.log(response.data.data)
+                        if (response.data.data) {
+                            this.posts = response.data.data
+                            alert("Account create, please go to login to access to the full application")
+                            this.$router.replace('/login').catch(()=>{});
+                        }
+                        
+                    }.bind(this));
+                } catch (e) {
+                    alert("Error : "+e)
+                    this.errors.push(e)
+                }
             }
         },
         reset : function () {
-            console.log(this.pwd)
-            console.log(this.pwd_check)
-            console.log(this.is_equals)
+            this.pwd =''
+            this.pwd_check =''
+            this.login =''
+        },
+        checkLogin: function () {
+            this.is_duplicate = false
+            axios.get(`http://0.0.0.0:5000/api/account`)
+                .then(response => {
+                    response.data.data.forEach(user => {
+                        if (user['login']==this.login) {
+                            return this.is_duplicate = true
+                        }
+                    })
+                })
+                .catch(error => {this.errors.push(error)})
+            console.log("duplicate : "+this.is_duplicate)
+        },
+        checkPwd : function () {
+            return this.pwd != ''
         }
-       
     },
     watch: {
         pwd: function (val) {
             this.is_equals = val == this.pwd_check
+            if (val == '') {
+                this.is_equals = false
+            }
         },
         pwd_check: function (val) {
             this.is_equals = this.pwd == val
+            if (val == '') {
+                this.is_equals = false
+            }
         }
     }
 }
