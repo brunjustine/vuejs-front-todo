@@ -2,8 +2,10 @@
   <div id="app">
     <nav class="navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
-      <a class="navbar-item" href="https://bulma.io">
-        <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
+      <a class="" >
+        <router-link to="/">
+          <img src="./assets/shortlist.png">
+        </router-link>
       </a>
 
       <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
@@ -14,13 +16,10 @@
     </div>
 
     <div id="navbarBasicExample" class="navbar-menu">
-      <div class="navbar-start">
-          <router-link class="navbar-item" to="/">Home</router-link>
-      </div>
+      
       <div class="navbar-end">
         <div class="navbar-item">
-          
-          <div class="buttons" v-if="!user">
+          <div class="buttons" v-if="!token">
               <strong><router-link class="button is-primary" to="/signup">Sign up</router-link></strong>
                <router-link class="button is-light" to="/login">Log in</router-link>
           </div>
@@ -49,14 +48,22 @@ export default {
     name: 'App',
     data() {
         return {
-                user: localStorage.getItem('user_login')
+                user: localStorage.getItem('user_login'),
+                token : localStorage.getItem('token')
         }
     },
     methods: {
       deconnexion : function() {
         this.user = undefined
+        this.token = undefined
         localStorage.clear()
         this.$router.replace('/login').catch(()=>{});
+      }
+    },
+    watch: {
+      '$route': function(){
+        this.user = localStorage.getItem('user_login')
+        this.token = localStorage.getItem('token')
       }
     }
 }
@@ -71,5 +78,11 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+
+img {
+
+  width:15%; /* you can use % */
+  height: auto;
 }
 </style>

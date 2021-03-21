@@ -86,7 +86,7 @@ export default {
             axios.patch(`http://0.0.0.0:5000/api/lists/${this.todoList.id}`,
             {
                 name : this.updatedName,
-                created_on:this.created_on
+                created_on:this.updatedDate
             }).then(function( response ){
                     this.todoList = response.data.data         
             }.bind(this));
