@@ -11,9 +11,9 @@ services:
       PORT: 5000
       FLASK_DEBUG: 1
     restart: always
-  #front-vuejs:
-  #  build: ./todo-list-front/
-  #  container_name : todoListFront
-  #  ports:
-  #    - 8080:8080
-  #  restart: always
+  front-vuejs:
+    build: ./todo-list-front/
+    container_name : todoListFront
+    ports:
+      - 8080:8080
+    restart: always
